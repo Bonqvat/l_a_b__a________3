@@ -1,0 +1,478 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Заказ автомобиля</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #f4f4f4;
+            margin: 0;
+            padding: 0;
+        }
+
+        .nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 15px 30px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.9);
+            color: black;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        .nav .logo {
+            display: flex;
+            align-items: center;
+        }
+        .nav .logo img {
+            height: 180px;
+            width: auto;
+            margin-right: 10px;
+        }
+        .nav .logo span {
+            font-size: 16px;
+            color: #333;
+        }
+        .menu {
+            display: flex;
+            gap: 20px;
+        }
+        .menu a {
+            color: #333;
+            white-space: nowrap;
+            font-size: 18px;
+            text-decoration: none;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+        .menu a:hover {
+            background-color: #007bff;
+            color: white;
+        }
+        .icons {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+        .icon {
+            font-size: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+        .icon:hover {
+            color: #007bff;
+        }
+        .btn {
+            background: linear-gradient(45deg, #007bff, #0056b3);
+            color: white;
+            padding: 12px 25px;
+            border: none;
+            border-radius: 25px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            box-shadow: 0 4px 10px rgba(0, 91, 187, 0.3);
+        }
+        .btn:hover {
+            background: #0056b3;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 50px auto;
+            padding: 20px;
+            background-color: #fff;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            color: #333;
+            margin-bottom: 10px;
+        }
+        select, input {
+            width: 100%;
+            padding: 10px;
+            margin-bottom: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+        }
+        button {
+            width: 100%;
+            padding: 10px;
+            background-color: #007bff;
+            color: #fff;
+            border: none;
+            border-radius: 4px;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+        .summary {
+            background-color: rgba(0, 0, 0, 0.05);
+            padding: 10px;
+            margin-top: 10px;
+            font-size: 14px;
+            color: #555;
+        }
+        .map-container {
+            width: 100%;
+            height: 300px;
+            margin-top: 10px;
+        }
+        footer {
+            text-align: right;
+            margin-top: 20px;
+        }
+        footer img.logo {
+            height: 200px;
+            width: auto;
+        }
+        .selected-item {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 1;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            overflow: auto;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: #fff;
+            margin: 15% auto;
+            padding: 20px;
+            border-radius: 8px;
+            width: 80%;
+            max-width: 400px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2);
+        }
+        .close {
+            color: #aaa;
+            float: right;
+            font-size: 28px;
+            font-weight: bold;
+            cursor: pointer;
+        }
+        .close:hover,
+        .close:focus {
+            color: #000;
+            text-decoration: none;
+        }
+
+        /* Новые стили */
+        .car-preview {
+            width: 100%;
+            max-height: 200px;
+            object-fit: contain;
+            margin-bottom: 20px;
+            display: none;
+            border-radius: 5px;
+        }
+    </style>
+</head>
+<body>
+    <nav class="nav">
+        <div class="logo">
+            <img src="_2025-02-11-214245170-10.png" alt="FutureAuto">
+            <span>📞+7 (8422) 56-34-89</span>
+        </div>
+        <div class="menu">
+            <a href="#home">Главная</a>
+            <a href="#about">О нас</a>
+            <a href="#services">Услуги</a>
+            <a href="#contacts">Контакты</a>
+        </div>
+        <div class="icons">
+            <i class="fas fa-star icon" id="favorites" title="Избранное"></i>
+            <i class="fas fa-shopping-cart icon" id="cart" title="Корзина"></i>
+            <button class="btn" onclick="openLoginModal()"><i class="fas fa-user"></i> Войти</button>
+        </div>
+    </nav>
+
+    <div class="container">
+        <img id="carPreview" class="car-preview" alt="Превью автомобиля">
+        
+        <h2>Марка автомобиля</h2>
+        <select id="brand" required onchange="updateModels()">
+            <option value="">Выберите марку автомобиля</option>
+        </select>
+        
+        <h2>Модель автомобиля</h2>
+        <select id="model" required onchange="updateCarDetails()">
+            <option value="">Выберите модель автомобиля</option>
+        </select>
+        
+        <h2>Выберите ближайший от вас автосалон</h2>
+        <select id="dealer" required onchange="updateMap()">
+            <option value="">Выберите ближайший от вас автосалон</option>
+            <option value="54.348333,48.586111">Автосалон 1 (Центральный)</option>
+            <option value="54.375833,48.584444">Автосалон 2 (Северный)</option>
+            <option value="54.354444,48.366944">Автосалон 3 (Западный)</option>
+            <option value="54.340833,48.399722">Автосалон 4 (Южный)</option>
+            <option value="54.330556,48.366111">Автосалон 5 (Восточный)</option>
+        </select>
+        <div id="map" class="map-container"></div>
+        
+        <h2>Выберите способ оплаты</h2>
+        <select id="payment" required>
+            <option value="">Выберите способ оплаты</option>
+            <option value="card">Банковская карта</option>
+            <option value="cash">Наличные</option>
+            <option value="credit">Кредит</option>
+            <option value="installment">Рассрочка</option>
+        </select>
+        
+        <h2>Дополнительные услуги</h2>
+        <select id="services" size="4" multiple onchange="updateServices(this)">
+            <option value="Страхование">Страхование (50 000 руб.)</option>
+            <option value="Доп. ТО">Доп. ТО (30 000 руб.)</option>
+            <option value="Замена шин">Замена шин (15 000 руб.)</option>
+            <option value="Премиум страховка">Премиум страховка (80 000 руб.)</option>
+        </select>
+        
+        <h2>Опции</h2>
+        <select id="options" size="4" multiple onchange="updateOptions(this)">
+            <option value="Кожаный салон">Кожаный салон (60 000 руб.)</option>
+            <option value="Навигация">Навигация (25 000 руб.)</option>
+            <option value="Премиум аудиосистема">Премиум аудиосистема (40 000 руб.)</option>
+            <option value="Панорамная крыша">Панорамная крыша (70 000 руб.)</option>
+        </select>
+        
+        <h2>Подтвердите контактный номер телефона</h2>
+        <input type="tel" id="phone" placeholder="Введите номер телефона например +79212312321" required>
+        
+        <div class="summary" id="summary">
+            <p>Авто: <span id="carPrice">-</span> рублей</p>
+            <p>Услуги: <span id="servicePrice">0</span> рублей</p>
+            <p>Опции: <span id="insurancePrice">0</span> рублей</p>
+            <p><strong>Итого: <span id="totalPrice">0</span> рублей</strong></p>
+        </div>
+        
+        <button id="submit" onclick="showOrderConfirmation()">Оформить заказ</button>
+    </div>
+
+    <div id="orderModal" class="modal">
+        <div class="modal-content">
+            <span class="close" onclick="closeOrderModal()">&times;</span>
+            <h2>Ваш заказ успешно оформлен!</h2>
+            <p>Сумма заказа: <span id="orderTotal"></span> рублей.</p>
+            <p>Пожалуйста, направьтесь в выбранный автосалон для оплаты:</p>
+            <p><strong>Адрес автосалона: <span id="dealerAddress"></span></strong></p>
+            <button onclick="closeOrderModal()">Закрыть</button>
+        </div>
+    </div>
+
+    <footer>
+        <img class="logo" src="_2025-02-11-214245170-10.png" alt="FutureAuto Logo">
+    </footer>
+
+    <script>
+        // Данные об автомобилях
+        const carData = {
+            "Toyota": {
+                models: ["Camry", "Corolla", "RAV4", "Land Cruiser", "Hilux"],
+                images: {
+                    "Camry": "https://via.placeholder.com/600x400?text=Toyota+Camry",
+                    "Corolla": "https://via.placeholder.com/600x400?text=Toyota+Corolla",
+                    "RAV4": "https://via.placeholder.com/600x400?text=Toyota+RAV4",
+                    "Land Cruiser": "https://via.placeholder.com/600x400?text=Land+Cruiser",
+                    "Hilux": "https://via.placeholder.com/600x400?text=Toyota+Hilux"
+                }
+            },
+            "Honda": {
+                models: ["Civic", "Accord", "CR-V", "Pilot", "HR-V"],
+                images: {
+                    "Civic": "https://via.placeholder.com/600x400?text=Honda+Civic",
+                    "Accord": "https://via.placeholder.com/600x400?text=Honda+Accord",
+                    "CR-V": "https://via.placeholder.com/600x400?text=Honda+CR-V",
+                    "Pilot": "https://via.placeholder.com/600x400?text=Honda+Pilot",
+                    "HR-V": "https://via.placeholder.com/600x400?text=Honda+HR-V"
+                }
+            },
+            "BMW": {
+                models: ["X5", "X3", "M3", "X7", "5-Series"],
+                images: {
+                    "X5": "https://via.placeholder.com/600x400?text=BMW+X5",
+                    "X3": "https://via.placeholder.com/600x400?text=BMW+X3",
+                    "M3": "https://via.placeholder.com/600x400?text=BMW+M3",
+                    "X7": "https://via.placeholder.com/600x400?text=BMW+X7",
+                    "5-Series": "https://via.placeholder.com/600x400?text=BMW+5-Series"
+                }
+            }
+        };
+
+        // Цены автомобилей
+        const carPrices = {
+            "Camry": 2500000,
+            "Corolla": 1800000,
+            "RAV4": 2800000,
+            "Land Cruiser": 6000000,
+            "Hilux": 3000000,
+            "Civic": 1900000,
+            "Accord": 2300000,
+            "CR-V": 2700000,
+            "Pilot": 3500000,
+            "HR-V": 2200000,
+            "X5": 5500000,
+            "X3": 4800000,
+            "M3": 6000000,
+            "X7": 7000000,
+            "5-Series": 5000000
+        };
+
+        // Инициализация при загрузке страницы
+        document.addEventListener('DOMContentLoaded', function() {
+            // Заполняем список марок
+            const brandSelect = document.getElementById("brand");
+            Object.keys(carData).forEach(brand => {
+                let option = document.createElement("option");
+                option.value = brand;
+                option.textContent = brand;
+                brandSelect.appendChild(option);
+            });
+        });
+
+        // Обновление списка моделей
+        function updateModels() {
+            const brand = document.getElementById("brand").value;
+            const modelSelect = document.getElementById("model");
+            
+            modelSelect.innerHTML = '<option value="">Выберите модель автомобиля</option>';
+            document.getElementById("carPreview").style.display = 'none';
+            
+            if (brand) {
+                carData[brand].models.forEach(model => {
+                    let option = document.createElement("option");
+                    option.value = model;
+                    option.textContent = model;
+                    modelSelect.appendChild(option);
+                });
+            }
+        }
+
+        // Обновление деталей автомобиля
+        function updateCarDetails() {
+            const brand = document.getElementById("brand").value;
+            const model = document.getElementById("model").value;
+            
+            if (brand && model) {
+                const preview = document.getElementById("carPreview");
+                preview.src = carData[brand].images[model];
+                preview.style.display = 'block';
+                updatePrice();
+            }
+        }
+
+        // Обновление цены
+        function updatePrice() {
+            const model = document.getElementById("model").value;
+            const price = carPrices[model] || 0;
+            document.getElementById("carPrice").textContent = price.toLocaleString();
+            updateTotal();
+        }
+
+        // Обновление карты
+        function updateMap() {
+            const dealer = document.getElementById('dealer').value;
+            if (dealer) {
+                document.getElementById('map').innerHTML = `
+                    <iframe 
+                        src="https://www.google.com/maps?q=${dealer}&output=embed" 
+                        width="100%" 
+                        height="100%" 
+                        style="border:0;" 
+                        allowfullscreen="" 
+                        loading="lazy">
+                    </iframe>`;
+            }
+        }
+
+        // Подтверждение заказа
+        function showOrderConfirmation() {
+            const brand = document.getElementById("brand").value;
+            const model = document.getElementById("model").value;
+            
+            if (!brand || !model) {
+                alert("Пожалуйста, выберите марку и модель автомобиля!");
+                return;
+            }
+            
+            const totalPrice = document.getElementById("totalPrice").textContent;
+            const dealerSelect = document.getElementById("dealer");
+            const selectedDealer = dealerSelect.options[dealerSelect.selectedIndex].text;
+            
+            if (!selectedDealer) {
+                alert("Пожалуйста, выберите автосалон!");
+                return;
+            }
+            
+            document.getElementById("orderTotal").textContent = totalPrice;
+            document.getElementById("dealerAddress").textContent = selectedDealer;
+            document.getElementById("orderModal").style.display = "block";
+        }
+
+        // Закрытие модального окна
+        function closeOrderModal() {
+            document.getElementById("orderModal").style.display = "none";
+        }
+
+        // Функции для услуг и опций (оставлены без изменений)
+        function updateServices(select) {
+            Array.from(select.options).forEach(option => {
+                option.classList.toggle("selected-item", option.selected);
+            });
+            updateServicesCost();
+        }
+
+        function updateOptions(select) {
+            Array.from(select.options).forEach(option => {
+                option.classList.toggle("selected-item", option.selected);
+            });
+            updateOptionsCost();
+        }
+
+        function updateServicesCost() {
+            const selected = Array.from(document.getElementById("services").selectedOptions);
+            let total = selected.reduce((sum, opt) => sum + getPriceFromText(opt.text), 0);
+            document.getElementById("servicePrice").textContent = total.toLocaleString();
+            updateTotal();
+        }
+
+        function updateOptionsCost() {
+            const selected = Array.from(document.getElementById("options").selectedOptions);
+            let total = selected.reduce((sum, opt) => sum + getPriceFromText(opt.text), 0);
+            document.getElementById("insurancePrice").textContent = total.toLocaleString();
+            updateTotal();
+        }
+
+        function getPriceFromText(text) {
+            const match = text.match(/\((\d+)/);
+            return match ? parseInt(match[1].replace(/\s/g, '')) : 0;
+        }
+
+        function updateTotal() {
+            const car = parseInt(document.getElementById("carPrice").textContent.replace(/\s+/g, '')) || 0;
+            const services = parseInt(document.getElementById("servicePrice").textContent.replace(/\s+/g, '')) || 0;
+            const options = parseInt(document.getElementById("insurancePrice").textContent.replace(/\s+/g, '')) || 0;
+            document.getElementById("totalPrice").textContent = (car + services + options).toLocaleString();
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,35 @@
+/* Figma Styles of your File */
+:root {
+  /* Colors */
+  --fon: linear-gradient(
+    180deg,
+    rgba(180, 255, 249, 1) 0%,
+    rgba(16, 33, 222, 1) 100%
+  );
+  --krasivyj-cvet: linear-gradient(
+    175.84deg,
+    rgba(91, 253, 4, 1) 0%,
+    rgba(0, 157, 255, 1) 100%
+  );
+  --1: linear-gradient(91.5deg, rgba(0, 0, 0, 1) 0%, rgba(1, 48, 78, 1) 100%);
+  --11: linear-gradient(88.62deg, rgba(0, 0, 0, 1) 0%, rgba(0, 33, 53, 1) 100%);
+
+  /* Fonts */
+  --tekst-sverhu-font-family: Montserrat-Light, sans-serif;
+  --tekst-sverhu-font-size: 24px;
+  --tekst-sverhu-line-height: 27.75px;
+  --tekst-sverhu-font-weight: 300;
+  --tekst-sverhu-font-style: normal;
+  --knopki-font-family: Montserrat-Medium, sans-serif;
+  --knopki-font-size: 24px;
+  --knopki-line-height: 27.75px;
+  --knopki-font-weight: 500;
+  --knopki-font-style: normal;
+  --2-font-family: Montserrat-Light, sans-serif;
+  --2-font-size: 20px;
+  --2-line-height: 27.75px;
+  --2-font-weight: 300;
+  --2-font-style: normal;
+
+  /* Effects */
+}

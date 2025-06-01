@@ -1,0 +1,586 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Регистрация</title>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Inter', sans-serif;
+        }
+        
+        body {
+            display: flex;
+            flex-direction: column;
+            min-height: 100vh;
+            background-color: #f4f4f4;
+        }
+
+        header {
+            background: white;
+            padding: 20px 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            border-bottom: 1px solid #ccc;
+            height: 80px;
+        }
+
+        .header-left {
+            display: flex;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .logo-img {
+            height: 160px;
+            width: auto;
+        }
+
+        nav a {
+            margin: 0 20px;
+            text-decoration: none;
+            color: #333;
+            white-space: nowrap;
+            font-size: 18px;
+            font-weight: 600;
+            text-transform: uppercase;
+            padding: 10px 15px;
+            border-radius: 5px;
+            transition: background-color 0.3s, color 0.3s;
+        }
+
+        nav a:hover {
+            background-color: #4c6ef5;
+            color: white;
+        }
+
+        .icons i {
+            font-size: 18px;
+            margin-left: 20px;
+            cursor: pointer;
+            color: #333;
+        }
+
+        main {
+            flex: 1;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            padding: 20px;
+        }
+
+        .registration-container {
+            width: 100%;
+            max-width: 400px;
+            background: white;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            border-radius: 8px;
+            position: relative;
+        }
+
+        h2 {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+
+        .form-group {
+            margin-bottom: 15px;
+        }
+
+        label {
+            display: block;
+            margin-bottom: 5px;
+            font-size: 14px;
+        }
+
+        input[type="text"],
+        input[type="email"],
+        input[type="password"],
+        input[type="tel"],
+        textarea {
+            width: 100%;
+            max-width: 300px;
+            padding: 10px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 14px;
+        }
+
+        textarea {
+            resize: none;
+            height: 60px;
+        }
+
+        button {
+            width: 100%;
+            max-width: 300px;
+            background-color: #007bff;
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 14px;
+        }
+
+        button:hover {
+            background-color: #0056b3;
+        }
+
+        footer {
+            background: linear-gradient(90deg, #0a0a0a 0%, #1a1a2e 100%);
+            color: white;
+            padding: 50px 60px;
+        }
+
+        .footer-top {
+            display: flex;
+            justify-content: space-between;
+            max-width: 1400px;
+            margin: 0 auto 30px;
+        }
+
+        .footer-left {
+            width: 65%;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .footer-right {
+            width: 32%;
+        }
+
+        .footer-right-content {
+            margin-left: auto;
+            max-width: 320px;
+        }
+
+        .footer-about {
+            margin-bottom: 30px;
+        }
+
+        .footer-about h2 {
+            font-size: 20px;
+            font-weight: 500;
+            margin-bottom: 10px;
+        }
+
+        .footer-subscribe {
+            display: flex;
+            gap: 10px;
+            margin-top: 10px;
+        }
+
+        .footer-subscribe input {
+            padding: 10px 16px;
+            border-radius: 20px;
+            border: none;
+            width: 100%;
+            font-size: 14px;
+        }
+
+        .footer-subscribe button {
+            padding: 10px 20px;
+            border-radius: 20px;
+            border: none;
+            background: #4c6ef5;
+            color: white;
+            cursor: pointer;
+            white-space: nowrap;
+            font-size: 14px;
+            transition: background 0.3s;
+        }
+
+        .footer-subscribe button:hover {
+            background: #3a5cd8;
+        }
+
+        .footer-social-container {
+            margin-top: 25px;
+        }
+
+        .footer-social-container h4 {
+            margin-bottom: 10px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .footer-social {
+            display: flex;
+            gap: 15px;
+        }
+
+        .footer-social i {
+            font-size: 22px;
+            color: white;
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .footer-social i:hover {
+            color: #4c6ef5;
+        }
+
+        .footer-contacts {
+            margin-top: 25px;
+        }
+
+        .footer-contacts h4 {
+            font-weight: 500;
+            font-size: 16px;
+            margin-bottom: 8px;
+        }
+
+        .footer-contacts p {
+            margin: 6px 0;
+            font-size: 14px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+
+        .footer-grid {
+            display: grid;
+            grid-template-columns: repeat(4, 1fr);
+            gap: 25px;
+            font-size: 14px;
+        }
+
+        .footer-grid h4 {
+            margin-bottom: 12px;
+            font-weight: 500;
+            font-size: 16px;
+        }
+
+        .footer-grid ul {
+            list-style: none;
+            padding: 0;
+            margin: 0;
+        }
+
+        .footer-grid ul li {
+            margin-bottom: 8px;
+        }
+
+        .footer-grid ul li a {
+            color: white;
+            text-decoration: none;
+            transition: 0.3s;
+            font-size: 14px;
+        }
+
+        .footer-grid ul li a:hover {
+            color: #4c6ef5;
+        }
+
+        .success-message {
+            display: none;
+            position: fixed;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            background: white;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
+            text-align: center;
+            z-index: 1000;
+            max-width: 400px;
+            width: 90%;
+        }
+
+        .success-message h3 {
+            color: #28a745;
+            margin-bottom: 15px;
+        }
+
+        .success-message p {
+            margin-bottom: 20px;
+        }
+
+        .success-message button {
+            background: #28a745;
+            max-width: 200px;
+            margin: 0 auto;
+        }
+
+        .success-message button:hover {
+            background: #218838;
+        }
+
+        .overlay {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.5);
+            z-index: 999;
+        }
+
+        /* Новые стили для валидации */
+        .error-message {
+            color: #dc3545;
+            font-size: 12px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        .input-error {
+            border-color: #dc3545 !important;
+        }
+    </style>
+</head>
+<body>
+    <header>
+        <div class="header-left">
+            <img src="1.png" alt="Логотип" class="logo-img">
+        </div>
+        <nav>
+            <a href="#">Главная</a>
+            <a href="#">О нас</a>
+            <a href="#">Услуги</a>
+            <a href="#">Контакты</a>
+        </nav>
+        <div class="icons">
+            <i class="fas fa-star"></i>
+            <i class="fas fa-shopping-cart"></i>
+            <i class="fas fa-user"></i>
+        </div>
+    </header>
+
+    <main>
+        <div class="registration-container">
+            <h2>Регистрация</h2>
+            <form id="registrationForm">
+                <div class="form-group">
+                    <label for="email">Электронная почта</label>
+                    <input type="email" id="email" name="email" placeholder="Введите почту" required maxlength="50">
+                    <div class="error-message" id="emailError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="password">Пароль</label>
+                    <input type="password" id="password" name="password" placeholder="Введите пароль" required maxlength="20">
+                    <div class="error-message" id="passwordError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="fio">Фамилия и Имя (отчество при наличии)</label>
+                    <input type="text" id="fio" name="fio" placeholder="Введите фамилию и имя" required maxlength="100">
+                    <div class="error-message" id="fioError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="address">Адрес проживания</label>
+                    <input type="text" id="address" name="address" placeholder="Введите домашний адрес проживания" required maxlength="150">
+                    <div class="error-message" id="addressError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="phone">Контактный номер телефона</label>
+                    <input type="tel" id="phone" name="phone" placeholder="+79212312321" required maxlength="15">
+                    <div class="error-message" id="phoneError"></div>
+                </div>
+
+                <div class="form-group">
+                    <label for="how_did_you_know">Как вы узнали о нас?</label>
+                    <textarea id="how_did_you_know" name="how_did_you_know" placeholder="(необязательно)" maxlength="200"></textarea>
+                </div>
+
+                <div class="form-group">
+                    <label for="photo">Ваше фото</label>
+                    <input type="file" id="photo" name="photo" accept="image/*">
+                    <p style="font-size: 12px;">(необязательно)</p>
+                </div>
+
+                <div class="form-group">
+                    <input type="checkbox" id="newsletter" name="newsletter">
+                    <label for="newsletter">Я хочу получать рассылку на свой почтовый адрес, рекламу и др.</label>
+                </div>
+
+                <div class="form-group">
+                    <input type="checkbox" id="consent" name="consent" required>
+                    <label for="consent">Согласие на обработку данных</label>
+                    <div class="error-message" id="consentError"></div>
+                </div>
+
+                <button type="submit">Согласен</button>
+            </form>
+        </div>
+    </main>
+
+    <footer>
+        <div class="footer-top">
+            <div class="footer-left">
+                <div class="footer-about">
+                    <h2>О компании</h2>
+                    <p>Наша компания предлагает широкий ассортимент автомобилей различных марок и моделей.</p>
+                </div>
+                <div class="footer-grid">
+                    <div>
+                        <h4>Категории</h4>
+                        <ul>
+                            <li><a href="#">Автомобили</a></li>
+                            <li><a href="#">Мотоциклы</a></li>
+                            <li><a href="#">Запчасти</a></li>
+                            <li><a href="#">Акции</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Компания</h4>
+                        <ul>
+                            <li><a href="#">О нас</a></li>
+                            <li><a href="#">Услуги</a></li>
+                            <li><a href="#">Контакты</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Поддержка</h4>
+                        <ul>
+                            <li><a href="#">Часто задаваемые вопросы</a></li>
+                            <li><a href="#">Обратная связь</a></li>
+                        </ul>
+                    </div>
+                    <div>
+                        <h4>Дополнительно</h4>
+                        <ul>
+                            <li><a href="#">Условия использования</a></li>
+                            <li><a href="#">Политика конфиденциальности</a></li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+            <div class="footer-right">
+                <div class="footer-right-content">
+                    <h2>Подписка</h2>
+                    <div class="footer-subscribe">
+                        <input type="email" placeholder="Ваш email">
+                        <button>Подписаться</button>
+                    </div>
+                    <div class="footer-social-container">
+                        <h4>Социальные сети</h4>
+                        <div class="footer-social">
+                            <a href="#" title="Gmail"><i class="fas fa-envelope"></i></a>
+                            <a href="#" title="ВКонтакте"><i class="fab fa-vk"></i></a>
+                            <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
+                        </div>
+                    </div>
+                    <div class="footer-contacts">
+                        <h4>Контакты</h4>
+                        <p><i class="fas fa-phone"></i> +7 (8422) 56-34-89</p>
+                        <p><i class="fas fa-envelope"></i> info@futureauto.com</p>
+                        <h4>Адрес</h4>
+                        <p><i class="fas fa-map-marker-alt"></i> г. Ульяновск</p>
+                        <p>ул. Автомобильная, 42</p>
+                        <p>Пн-Пт: 9:00-18:00</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </footer>
+
+    <div class="overlay" id="overlay"></div>
+    <div class="success-message" id="successMessage">
+        <h3>Успешная регистрация!</h3>
+        <p>Письмо с подтверждением отправлено на ваш email.</p>
+        <button onclick="hideSuccessMessage()">OK</button>
+    </div>
+
+    <script>
+        document.getElementById('registrationForm').addEventListener('submit', function(e) {
+            e.preventDefault();
+            let isValid = true;
+
+            // Валидация email
+            const email = document.getElementById('email').value;
+            if (!email.includes('@') || !email.includes('.')) {
+                showError('emailError', 'Введите корректный email');
+                isValid = false;
+            } else {
+                hideError('emailError');
+            }
+
+            // Валидация пароля
+            const password = document.getElementById('password').value;
+            if (password.length < 6) {
+                showError('passwordError', 'Пароль должен быть не менее 6 символов');
+                isValid = false;
+            } else {
+                hideError('passwordError');
+            }
+
+            // Валидация ФИО
+            const fio = document.getElementById('fio').value;
+            if (fio.trim().split(/\s+/).length < 2) {
+                showError('fioError', 'Введите фамилию и имя');
+                isValid = false;
+            } else {
+                hideError('fioError');
+            }
+
+            // Валидация адреса
+            const address = document.getElementById('address').value;
+            if (address.trim() === '') {
+                showError('addressError', 'Введите адрес');
+                isValid = false;
+            } else {
+                hideError('addressError');
+            }
+
+            // Валидация телефона
+            const phone = document.getElementById('phone').value;
+            if (!/^\+?[0-9]{10,15}$/.test(phone)) {
+                showError('phoneError', 'Введите корректный номер телефона');
+                isValid = false;
+            } else {
+                hideError('phoneError');
+            }
+
+            // Валидация согласия
+            if (!document.getElementById('consent').checked) {
+                showError('consentError', 'Необходимо ваше согласие');
+                isValid = false;
+            } else {
+                hideError('consentError');
+            }
+
+            // Если все проверки пройдены
+            if (isValid) {
+                showSuccessMessage();
+            }
+        });
+
+        function showError(id, message) {
+            const element = document.getElementById(id);
+            element.textContent = message;
+            element.style.display = 'block';
+            document.getElementById(id.replace('Error', '')).classList.add('input-error');
+        }
+
+        function hideError(id) {
+            const element = document.getElementById(id);
+            element.style.display = 'none';
+            document.getElementById(id.replace('Error', '')).classList.remove('input-error');
+        }
+
+        function showSuccessMessage() {
+            document.getElementById('overlay').style.display = 'block';
+            document.getElementById('successMessage').style.display = 'block';
+        }
+
+        function hideSuccessMessage() {
+            document.getElementById('overlay').style.display = 'none';
+            document.getElementById('successMessage').style.display = 'none';
+        }
+    </script>
+</body>
+</html>

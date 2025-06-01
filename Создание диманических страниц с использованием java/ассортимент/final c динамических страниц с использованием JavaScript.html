@@ -1,0 +1,1355 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>FutureAuto</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+      font-family: 'Inter', sans-serif;
+    }
+    body {
+      background-color: #f1f1f1;
+      color: #000;
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+    header {
+      background: white;
+      padding: 20px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      height: 80px;
+    }
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+    .logo-img {
+      height: 220px;
+      width: auto;
+    }
+    .logo {
+      font-size: 28px;
+      font-weight: 600;
+    }
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #333;
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+    nav a:hover {
+      background-color: #4c6ef5;
+      color: white;
+    }
+    .icons i {
+      font-size: 18px;
+      margin-left: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+    .catalog-container {
+      padding: 40px 60px;
+      flex-grow: 1;
+    }
+    .search-filter-wrapper {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .search-container {
+      display: flex;
+      max-width: 900px;
+      width: 100%;
+      gap: 10px;
+    }
+    .search-bar-container {
+      flex-grow: 1;
+      position: relative;
+    }
+    .search-bar {
+      padding: 10px 15px;
+      width: 100%;
+      font-size: 14px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      transition: 0.3s;
+    }
+    .search-bar:focus {
+      outline: none;
+      border-color: #4c6ef5;
+    }
+    .search-btn {
+      padding: 0 20px;
+      background: #4c6ef5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      white-space: nowrap;
+    }
+    .search-btn:hover {
+      background: #3a5cd8;
+    }
+    .filters-button {
+      padding: 0 20px;
+      background: #4c6ef5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      white-space: nowrap;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+    .filters-button:hover {
+      background: #3a5cd8;
+    }
+    .autocomplete-suggestions {
+      background-color: white;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      max-height: 200px;
+      overflow-y: auto;
+      position: absolute;
+      z-index: 100;
+      width: 100%;
+      margin-top: 5px;
+    }
+    .autocomplete-suggestions div {
+      padding: 8px;
+      cursor: pointer;
+    }
+    .autocomplete-suggestions div:hover {
+      background-color: #f1f1f1;
+    }
+    .filters-container {
+      display: none;
+      flex-wrap: wrap;
+      gap: 15px;
+      background: white;
+      padding: 20px;
+      border-radius: 10px;
+      box-shadow: 0 0 10px rgba(0, 0, 0, 0.05);
+      position: absolute;
+      left: 50%;
+      transform: translateX(-50%);
+      top: 120px;
+      z-index: 10;
+      width: 90%;
+      max-width: 900px;
+    }
+    .filter-group {
+      min-width: 180px;
+      flex: 1;
+    }
+    .filter-group h4 {
+      margin-bottom: 8px;
+      font-size: 14px;
+      color: #555;
+    }
+    .filters-container select,
+    .filters-container input[type="text"] {
+      padding: 10px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+      width: 100%;
+      height: 40px;
+    }
+    .price-filter {
+      width: 100%;
+    }
+    .price-inputs {
+      display: flex;
+      gap: 10px;
+      margin-bottom: 10px;
+    }
+    .price-inputs input {
+      width: 100px;
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 14px;
+    }
+    .price-slider {
+      width: 100%;
+      height: 5px;
+      -webkit-appearance: none;
+      background: #ddd;
+      border-radius: 5px;
+      outline: none;
+      margin: 15px 0;
+    }
+    .price-slider::-webkit-slider-thumb {
+      -webkit-appearance: none;
+      width: 18px;
+      height: 18px;
+      background: #4c6ef5;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .price-slider::-moz-range-thumb {
+      width: 18px;
+      height: 18px;
+      background: #4c6ef5;
+      border-radius: 50%;
+      cursor: pointer;
+    }
+    .price-labels {
+      display: flex;
+      justify-content: space-between;
+      font-size: 12px;
+      color: #666;
+    }
+    .apply-filters {
+      width: 100%;
+      padding: 10px;
+      background: #4c6ef5;
+      color: white;
+      border: none;
+      border-radius: 6px;
+      font-size: 16px;
+      cursor: pointer;
+      transition: 0.3s;
+      margin-top: 10px;
+    }
+    .apply-filters:hover {
+      background: #3a5cd8;
+    }
+    .car-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 30px;
+      margin-top: 30px;
+    }
+    .car-card {
+      background: white;
+      border-radius: 10px;
+      overflow: hidden;
+      box-shadow: 0 0 8px rgba(0, 0, 0, 0.05);
+      display: flex;
+      flex-direction: column;
+    }
+    .car-card img {
+      width: 100%;
+      height: 160px;
+      object-fit: cover;
+      border-bottom: 1px solid #eee;
+    }
+    .car-info {
+      padding: 15px;
+      font-size: 14px;
+    }
+    .car-info h3 {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 8px;
+    }
+    .car-info p {
+      margin: 5px 0;
+      color: #444;
+      font-size: 13px;
+    }
+    .car-price {
+      font-weight: 600;
+      color: #4c6ef5;
+      margin-top: 10px;
+      font-size: 16px;
+    }
+    .card-buttons {
+      margin-top: 15px;
+      display: flex;
+      flex-direction: column;
+      gap: 8px;
+      padding: 0 15px 15px;
+    }
+    .card-buttons button {
+      padding: 10px;
+      background: #e1e1e1;
+      border: none;
+      border-radius: 5px;
+      font-size: 13px;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+    .card-buttons button:hover {
+      background: #ccc;
+    }
+    .pagination {
+      display: flex;
+      justify-content: center;
+      margin-top: 40px;
+      gap: 8px;
+    }
+    .pagination button {
+      padding: 8px 12px;
+      border: 1px solid #ccc;
+      background: white;
+      border-radius: 4px;
+      cursor: pointer;
+      font-size: 14px;
+    }
+    .reset-filter {
+      cursor: pointer;
+      color: #4c6ef5;
+      font-weight: 500;
+      font-size: 13px;
+      margin-top: 5px;
+      display: inline-block;
+    }
+    .reset-filter:hover {
+      text-decoration: underline;
+    }
+    
+    /* Новые стили для динамических элементов */
+    .car-features {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 5px;
+      margin-top: 10px;
+    }
+    
+    .car-feature {
+      background: #f0f0f0;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    
+    .car-status {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+      background: #4c6ef5;
+      color: white;
+      padding: 3px 8px;
+      border-radius: 10px;
+      font-size: 12px;
+    }
+    
+    .car-card {
+      position: relative;
+      transition: transform 0.3s;
+    }
+    
+    .car-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+    }
+    
+    .active-page {
+      background: #4c6ef5 !important;
+      color: white !important;
+    }
+    
+    @media (max-width: 1200px) {
+      .car-grid {
+        grid-template-columns: repeat(3, 1fr);
+      }
+    }
+    @media (max-width: 900px) {
+      .car-grid {
+        grid-template-columns: repeat(2, 1fr);
+      }
+      .filters-container {
+        flex-direction: column;
+      }
+      .search-container {
+        flex-wrap: wrap;
+      }
+      .search-bar-container {
+        order: 1;
+        width: 100%;
+      }
+    }
+    @media (max-width: 600px) {
+      .car-grid {
+        grid-template-columns: 1fr;
+      }
+      header {
+        flex-direction: column;
+        align-items: flex-start;
+        height: auto;
+        padding: 15px;
+      }
+      nav {
+        margin-top: 10px;
+      }
+      .search-container {
+        flex-direction: column;
+      }
+      .filters-container {
+        left: 15px;
+        right: 15px;
+        transform: none;
+        width: auto;
+        top: 180px;
+      }
+    }
+
+    /* Новые стили для футера */
+    footer {
+      background: linear-gradient(90deg, #0a0a0a 0%, #1a1a2e 100%);
+      color: white;
+      padding: 50px 60px;
+      margin-top: 60px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto 30px;
+    }
+
+    .footer-left {
+      width: 65%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-right {
+      width: 32%;
+    }
+
+    .footer-right-content {
+      margin-left: auto;
+      max-width: 320px;
+    }
+
+    .footer-about {
+      margin-bottom: 30px;
+    }
+
+    .footer-top h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .footer-subscribe {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .footer-subscribe input {
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: none;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .footer-subscribe button {
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: none;
+      background: #4c6ef5;
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .footer-subscribe button:hover {
+      background: #3a5cd8;
+    }
+
+    .footer-social-container {
+      margin-top: 25px;
+    }
+
+    .footer-social-container h4 {
+      margin-bottom: 10px;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social i {
+      font-size: 22px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .footer-social i:hover {
+      color: #4c6ef5;
+    }
+
+    .footer-contacts {
+      margin-top: 25px;
+    }
+
+    .footer-contacts h4 {
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .footer-contacts p {
+      margin: 6px 0;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      font-size: 14px;
+    }
+
+    .footer-grid h4 {
+      margin-bottom: 12px;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .footer-grid ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-grid ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-grid ul li a {
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    .footer-grid ul li a:hover {
+      color: #4c6ef5;
+    }
+
+    @media (max-width: 1200px) {
+      .footer-top {
+        flex-direction: column;
+      }
+      
+      .footer-left,
+      .footer-right {
+        width: 100%;
+      }
+      
+      .footer-right-content {
+        margin-left: 0;
+        max-width: 100%;
+        margin-top: 30px;
+      }
+      
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      footer {
+        padding: 40px 30px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      footer {
+        padding: 30px 20px;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      
+      .footer-subscribe {
+        flex-direction: column;
+      }
+      
+      .footer-subscribe button {
+        width: 100%;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="header-left">
+      <img src="1.png" alt="Логотип" class="logo-img">
+    </div>
+    <nav>
+      <a href="#">Главная</a>
+      <a href="#">О Нас</a>
+      <a href="#">Услуги</a>
+      <a href="#">Контакты</a>
+    </nav>
+    <div class="icons">
+      <i class="fas fa-star"></i>
+      <i class="fas fa-shopping-cart"></i>
+      <i class="fas fa-user"></i>
+    </div>
+  </header>
+  <section class="catalog-container">
+    <div class="search-filter-wrapper">
+      <div class="search-container">
+        <button class="filters-button" id="filterToggle">
+          <i class="fas fa-sliders-h"></i> Фильтры
+        </button>
+        <div class="search-bar-container">
+          <input type="text" class="search-bar" id="search" placeholder="Поиск по названию автомобиля" oninput="showSuggestions(this.value)">
+          <div id="suggestions" class="autocomplete-suggestions"></div>
+        </div>
+        <button class="search-btn" onclick="performSearch()">
+          <i class="fas fa-search"></i> Поиск
+        </button>
+      </div>
+    </div>
+
+    <div id="filtersPanel" class="filters-container">
+      <div class="filter-group">
+        <h4>Марка <span class="reset-filter" onclick="resetFilter('brandSelect')">Сбросить</span></h4>
+        <select id="brandSelect" onchange="updateModels()">
+          <option value="" selected>Выберите марку</option>
+          <option value="toyota">Toyota</option>
+          <option value="audi">Audi</option>
+          <option value="bmw">BMW</option>
+          <option value="skoda">Skoda</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h4>Модель <span class="reset-filter" onclick="resetFilter('modelSelect')">Сбросить</span></h4>
+        <select id="modelSelect" disabled onchange="filterCars()">
+          <option value="" selected>Сначала выберите марку</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h4>Год выпуска <span class="reset-filter" onclick="resetFilter('yearSelect')">Сбросить</span></h4>
+        <select id="yearSelect" onchange="filterCars()">
+          <option value="" selected>Любой</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h4>Тип кузова <span class="reset-filter" onclick="resetFilter('bodyTypeSelect')">Сбросить</span></h4>
+        <select id="bodyTypeSelect" onchange="filterByBodyType()">
+          <option value="" selected>Любой</option>
+          <option value="sedan">Седан</option>
+          <option value="hatchback">Хэтчбэк</option>
+          <option value="suv">Кроссовер</option>
+          <option value="crossover">Внедорожник</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h4>Привод <span class="reset-filter" onclick="resetFilter('driveTypeSelect')">Сбросить</span></h4>
+        <select id="driveTypeSelect" onchange="filterCars()">
+          <option value="" selected>Любой</option>
+          <option value="front">Передний</option>
+          <option value="rear">Задний</option>
+          <option value="full">Полный</option>
+        </select>
+      </div>
+      
+      <div class="filter-group">
+        <h4>Мощность (л.с.) <span class="reset-filter" onclick="resetFilter('powerSelect')">Сбросить</span></h4>
+        <select id="powerSelect" onchange="filterCars()">
+          <option value="" selected>Любая</option>
+          <option value="50">До 50</option>
+          <option value="100">50-100</option>
+          <option value="150">100-150</option>
+          <option value="200">150-200</option>
+          <option value="300">200-300</option>
+          <option value="500">300-500</option>
+          <option value="750">500-750</option>
+          <option value="1000">750-1000</option>
+          <option value="1001">1000+</option>
+        </select>
+      </div>
+      
+      <div class="filter-group price-filter">
+        <h4>Цена, ₽ <span class="reset-filter" onclick="resetPriceFilter()">Сбросить</span></h4>
+        <div class="price-inputs">
+          <input type="number" id="minPrice" placeholder="от" min="0" value="300000" step="1000" onchange="updatePriceSlider()">
+          <input type="number" id="maxPrice" placeholder="до" min="0" value="10000000" step="1000" onchange="updatePriceSlider()">
+        </div>
+        <div class="price-slider-container">
+          <input type="range" id="priceSlider" min="0" max="10000000" value="300000" step="1000" class="price-slider" oninput="updatePriceInputs()">
+          <div class="price-labels">
+            <span>0</span>
+            <span>10 000 000</span>
+          </div>
+        </div>
+      </div>
+      
+      <button class="apply-filters" onclick="applyFilters()">Применить фильтры</button>
+    </div>
+
+    <div class="car-grid" id="carGrid">
+      <!-- Автомобили будут загружены через JavaScript -->
+    </div>
+
+    <div class="pagination" id="pagination">
+      <button onclick="changePage(-1)">&laquo; Предыдущие</button>
+      <button class="active-page" onclick="changePage(1)">1</button>
+      <button onclick="changePage(2)">2</button>
+      <button onclick="changePage(3)">3</button>
+      <button onclick="changePage(1)">Следующие &raquo;</button>
+    </div>
+  </section>
+  <footer>
+    <div class="footer-top">
+      <div class="footer-left">
+        <div class="footer-about">
+          <h2>О компании</h2>
+          <p>Наша компания предлагает широкий ассортимент автомобилей различных марок и моделей.</p>
+        </div>
+        <div class="footer-grid">
+          <div>
+            <h4>Категории</h4>
+            <ul>
+              <li><a href="#">Автомобили</a></li>
+              <li><a href="#">Мотоциклы</a></li>
+              <li><a href="#">Запчасти</a></li>
+              <li><a href="#">Акции</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Компания</h4>
+            <ul>
+              <li><a href="#">О нас</a></li>
+              <li><a href="#">Услуги</a></li>
+              <li><a href="#">Контакты</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Поддержка</h4>
+            <ul>
+              <li><a href="#">Часто задаваемые вопросы</a></li>
+              <li><a href="#">Обратная связь</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Дополнительно</h4>
+            <ul>
+              <li><a href="#">Условия использования</a></li>
+              <li><a href="#">Политика конфиденциальности</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-right">
+        <div class="footer-right-content">
+          <h2>Подписка</h2>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Ваш email">
+            <button>Подписаться</button>
+          </div>
+          <div class="footer-social-container">
+            <h4>Социальные сети</h4>
+            <div class="footer-social">
+              <a href="#" title="Gmail"><i class="fas fa-envelope"></i></a>
+              <a href="#" title="ВКонтакте"><i class="fab fa-vk"></i></a>
+              <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
+            </div>
+          </div>
+          <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p><i class="fas fa-phone"></i> +7 (8422) 56-34-89</p>
+            <p><i class="fas fa-envelope"></i> info@futureauto.com</p>
+            <h4>Адрес</h4>
+            <p><i class="fas fa-map-marker-alt"></i> г. Ульяновск</p>
+            <p>ул. Автомобильная, 42</p>
+            <p>Пн-Пт: 9:00-18:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <script>
+    // Данные автомобилей с реальными изображениями
+    const carsData = [
+      {
+        id: 1,
+        brand: 'Toyota',
+        model: 'Camry',
+        year: 2024,
+        bodyType: 'sedan',
+        drive: 'front',
+        power: 181,
+        price: 2450000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '2.5 (181 л.с.), автомат, передний привод',
+        features: ['Автомат', 'Климат-контроль', 'Кожаный салон'],
+        status: 'Новый'
+      },
+      {
+        id: 2,
+        brand: 'Audi',
+        model: 'A6',
+        year: 2023,
+        bodyType: 'sedan',
+        drive: 'full',
+        power: 245,
+        price: 4120000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '2.0 TFSI (245 л.с.), автомат, полный привод',
+        features: ['Автомат', 'Полный привод', 'Парктроник'],
+        status: 'Новый'
+      },
+      {
+        id: 3,
+        brand: 'BMW',
+        model: 'X5',
+        year: 2025,
+        bodyType: 'suv',
+        drive: 'full',
+        power: 340,
+        price: 6890000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '3.0 (340 л.с.), автомат, полный привод',
+        features: ['Автомат', 'Полный привод', 'Панорамная крыша'],
+        status: 'Новый'
+      },
+      {
+        id: 4,
+        brand: 'Skoda',
+        model: 'Superb',
+        year: 2024,
+        bodyType: 'hatchback',
+        drive: 'front',
+        power: 190,
+        price: 2950000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '2.0 TSI (190 л.с.), автомат, передний привод',
+        features: ['Автомат', 'Климат-контроль', 'Круиз-контроль'],
+        status: 'Новый'
+      },
+      {
+        id: 5,
+        brand: 'Toyota',
+        model: 'RAV4',
+        year: 2023,
+        bodyType: 'crossover',
+        drive: 'full',
+        power: 194,
+        price: 3200000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '2.5 (194 л.с.), автомат, полный привод',
+        features: ['Автомат', 'Полный привод', 'Камера заднего вида'],
+        status: 'Новый'
+      },
+      {
+        id: 6,
+        brand: 'Audi',
+        model: 'Q5',
+        year: 2024,
+        bodyType: 'suv',
+        drive: 'full',
+        power: 265,
+        price: 4850000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '2.0 TFSI (265 л.с.), автомат, полный привод',
+        features: ['Автомат', 'Полный привод', 'Кожаный салон'],
+        status: 'Новый'
+      },
+      {
+        id: 7,
+        brand: 'BMW',
+        model: '3 Series',
+        year: 2024,
+        bodyType: 'sedan',
+        drive: 'rear',
+        power: 184,
+        price: 3750000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '2.0 (184 л.с.), автомат, задний привод',
+        features: ['Автомат', 'Задний привод', 'Спортивный пакет'],
+        status: 'Новый'
+      },
+      {
+        id: 8,
+        brand: 'Skoda',
+        model: 'Octavia',
+        year: 2024,
+        bodyType: 'hatchback',
+        drive: 'front',
+        power: 150,
+        price: 2200000,
+        image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n',
+        description: '1.4 TSI (150 л.с.), автомат, передний привод',
+        features: ['Автомат', 'Климат-контроль', 'Мультимедия'],
+        status: 'Новый'
+      }
+    ];
+
+    // Данные моделей для каждой марки с изображениями
+    const modelsData = {
+      toyota: [
+        { name: 'Camry', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'RAV4', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'Corolla', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'Land Cruiser', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' }
+      ],
+      audi: [
+        { name: 'A6', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'A4', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'Q5', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'Q7', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' }
+      ],
+      bmw: [
+        { name: 'X5', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: '3 Series', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: '5 Series', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'X3', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' }
+      ],
+      skoda: [
+        { name: 'Superb', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'Octavia', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'Kodiaq', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' },
+        { name: 'Karoq', image: 'https://avatars.mds.yandex.net/get-autoru-vos/2051780/3f8b3e2d6f4f0c2b6e3b4f3b4f3b4f3b/1200x900n' }
+      ]
+    };
+
+    // Текущая страница и количество элементов на странице
+    let currentPage = 1;
+    const itemsPerPage = 8;
+    
+    // Загрузка автомобилей при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+      loadCars(carsData);
+      // Инициализация фильтров
+      updateFilterOptions(carsData);
+      // Инициализация слайдера цен
+      initPriceSlider();
+      // Инициализация пагинации
+      updatePagination();
+    });
+
+    // Инициализация слайдера цен
+    function initPriceSlider() {
+      const minPrice = document.getElementById('minPrice');
+      const maxPrice = document.getElementById('maxPrice');
+      const priceSlider = document.getElementById('priceSlider');
+      
+      // Установка минимального и максимального значений
+      const min = 0;
+      const max = 10000000;
+      
+      minPrice.min = min;
+      minPrice.max = max;
+      maxPrice.min = min;
+      maxPrice.max = max;
+      
+      priceSlider.min = min;
+      priceSlider.max = max;
+    }
+
+    // Обновление полей ввода при изменении слайдера
+    function updatePriceInputs() {
+      const priceSlider = document.getElementById('priceSlider');
+      const minPrice = document.getElementById('minPrice');
+      const maxPrice = document.getElementById('maxPrice');
+      
+      minPrice.value = priceSlider.value;
+      maxPrice.value = priceSlider.max;
+      filterCars();
+    }
+
+    // Обновление слайдера при изменении полей ввода
+    function updatePriceSlider() {
+      const minPrice = document.getElementById('minPrice');
+      const priceSlider = document.getElementById('priceSlider');
+      
+      priceSlider.value = minPrice.value;
+      filterCars();
+    }
+
+    // Функция загрузки автомобилей
+    function loadCars(cars) {
+      const carGrid = document.getElementById('carGrid');
+      carGrid.innerHTML = '';
+      
+      if (cars.length === 0) {
+        carGrid.innerHTML = '<p style="grid-column: 1/-1; text-align: center;">Автомобили по вашему запросу не найдены</p>';
+        return;
+      }
+      
+      // Пагинация
+      const startIndex = (currentPage - 1) * itemsPerPage;
+      const paginatedCars = cars.slice(startIndex, startIndex + itemsPerPage);
+      
+      paginatedCars.forEach(car => {
+        const carCard = document.createElement('div');
+        carCard.className = 'car-card';
+        carCard.innerHTML = `
+          <div class="car-status">${car.status}</div>
+          <img src="${car.image}" alt="${car.brand} ${car.model}">
+          <div class="car-info">
+            <h3>${car.brand} ${car.model} ${car.year}</h3>
+            <p>${car.description}</p>
+            <div class="car-features">
+              ${car.features.map(feature => `<span class="car-feature">${feature}</span>`).join('')}
+            </div>
+            <p class="car-price">${car.price.toLocaleString()} ₽</p>
+          </div>
+          <div class="card-buttons">
+            <button onclick="addToFavorites(${car.id})">В избранное</button>
+            <button onclick="addToCart(${car.id})">В корзину</button>
+            <button onclick="showCarDetails(${car.id})">Подробнее</button>
+          </div>
+        `;
+        carGrid.appendChild(carCard);
+      });
+      
+      updatePagination();
+    }
+
+    // Добавление в избранное
+    function addToFavorites(carId) {
+      const car = carsData.find(c => c.id === carId);
+      if (car) {
+        alert(`Автомобиль ${car.brand} ${car.model} добавлен в избранное!`);
+        // Здесь можно добавить логику для реального добавления в избранное
+      }
+    }
+    
+    // Добавление в корзину
+    function addToCart(carId) {
+      const car = carsData.find(c => c.id === carId);
+      if (car) {
+        alert(`Автомобиль ${car.brand} ${car.model} добавлен в корзину!`);
+        // Здесь можно добавить логику для реального добавления в корзину
+      }
+    }
+    
+    // Показать детали автомобиля
+    function showCarDetails(carId) {
+      const car = carsData.find(c => c.id === carId);
+      if (car) {
+        alert(`Подробная информация о ${car.brand} ${car.model}\nГод: ${car.year}\nЦена: ${car.price.toLocaleString()} ₽\n${car.description}`);
+        // Здесь можно добавить перенаправление на страницу деталей
+      }
+    }
+
+    // Функция для обновления доступных опций в селектах
+    function updateFilterOptions(filteredCars) {
+      // Обновляем модели
+      const brandSelect = document.getElementById('brandSelect');
+      const modelSelect = document.getElementById('modelSelect');
+      const selectedBrand = brandSelect.value.toLowerCase();
+      
+      if (selectedBrand) {
+        modelSelect.innerHTML = '<option value="" selected>Выберите модель</option>';
+        modelsData[selectedBrand].forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.name.toLowerCase();
+          option.textContent = model.name;
+          option.dataset.image = model.image;
+          modelSelect.appendChild(option);
+        });
+      }
+      
+      // Обновляем годы выпуска
+      const yearSelect = document.getElementById('yearSelect');
+      const availableYears = [...new Set(filteredCars.map(car => car.year))].sort((a, b) => b - a);
+      yearSelect.innerHTML = '<option value="" selected>Любой</option>';
+      availableYears.forEach(year => {
+        const option = document.createElement('option');
+        option.value = year;
+        option.textContent = year;
+        yearSelect.appendChild(option);
+      });
+      
+      // Обновляем типы привода
+      const driveSelect = document.getElementById('driveTypeSelect');
+      const availableDrives = [...new Set(filteredCars.map(car => car.drive))];
+      driveSelect.innerHTML = '<option value="" selected>Любой</option>';
+      availableDrives.forEach(drive => {
+        const option = document.createElement('option');
+        option.value = drive;
+        option.textContent = 
+          drive === 'front' ? 'Передний' : 
+          drive === 'rear' ? 'Задний' : 'Полный';
+        driveSelect.appendChild(option);
+      });
+      
+      // Обновляем диапазон мощностей (теперь статический, так как диапазон расширен)
+      const powerSelect = document.getElementById('powerSelect');
+      powerSelect.innerHTML = `
+        <option value="" selected>Любая</option>
+        <option value="50">До 50</option>
+        <option value="100">50-100</option>
+        <option value="150">100-150</option>
+        <option value="200">150-200</option>
+        <option value="300">200-300</option>
+        <option value="500">300-500</option>
+        <option value="750">500-750</option>
+        <option value="1000">750-1000</option>
+        <option value="1001">1000+</option>
+      `;
+      
+      // Обновляем ценовой диапазон
+      const minPriceInput = document.getElementById('minPrice');
+      const maxPriceInput = document.getElementById('maxPrice');
+      const priceSlider = document.getElementById('priceSlider');
+      const minPrice = Math.min(...filteredCars.map(car => car.price));
+      const maxPrice = Math.max(...filteredCars.map(car => car.price));
+      
+      minPriceInput.min = minPrice;
+      minPriceInput.placeholder = `от ${minPrice.toLocaleString()}`;
+      maxPriceInput.placeholder = `до ${maxPrice.toLocaleString()}`;
+      priceSlider.min = minPrice;
+      priceSlider.max = maxPrice;
+    }
+
+    // Автодополнение поиска
+    const carData = ["Toyota Camry", "Audi A6", "Skoda Superb", "BMW X5", "Toyota RAV4", "Audi Q5", "BMW 3 Series", "Skoda Octavia"];
+    
+    function showSuggestions(value) {
+      const suggestions = document.getElementById('suggestions');
+      suggestions.innerHTML = '';
+      if (!value) return;
+      
+      const filteredSuggestions = carData.filter(car => 
+        car.toLowerCase().includes(value.toLowerCase())
+      );
+      
+      filteredSuggestions.forEach(suggestion => {
+        const suggestionDiv = document.createElement('div');
+        suggestionDiv.textContent = suggestion;
+        suggestionDiv.onclick = function() {
+          document.getElementById('search').value = suggestion;
+          suggestions.innerHTML = '';
+          filterCars();
+        };
+        suggestions.appendChild(suggestionDiv);
+      });
+    }
+    
+    // Управление фильтрами
+    document.getElementById('filterToggle').addEventListener('click', function(e) {
+      e.stopPropagation();
+      const panel = document.getElementById('filtersPanel');
+      panel.style.display = panel.style.display === 'flex' ? 'none' : 'flex';
+    });
+    
+    // Закрытие фильтров при клике вне их
+    document.addEventListener('click', function(e) {
+      const panel = document.getElementById('filtersPanel');
+      const button = document.getElementById('filterToggle');
+      
+      if (!panel.contains(e.target) && !button.contains(e.target)) {
+        panel.style.display = 'none';
+      }
+    });
+
+    // Обновление моделей при выборе марки
+    function updateModels() {
+      const brandSelect = document.getElementById('brandSelect');
+      const modelSelect = document.getElementById('modelSelect');
+      const selectedBrand = brandSelect.value.toLowerCase();
+      
+      modelSelect.innerHTML = '<option value="" selected>Выберите модель</option>';
+      modelSelect.disabled = !selectedBrand;
+      
+      if (selectedBrand) {
+        modelsData[selectedBrand].forEach(model => {
+          const option = document.createElement('option');
+          option.value = model.name.toLowerCase();
+          option.textContent = model.name;
+          option.dataset.image = model.image;
+          modelSelect.appendChild(option);
+        });
+      }
+      
+      filterCars();
+    }
+    
+    // Фильтрация по типу кузова с обновлением других параметров
+    function filterByBodyType() {
+      const bodyTypeSelect = document.getElementById('bodyTypeSelect');
+      const bodyType = bodyTypeSelect.value;
+      
+      let filteredCars = carsData;
+      if (bodyType) {
+        filteredCars = carsData.filter(car => car.bodyType === bodyType);
+      }
+      
+      // Обновляем доступные опции в других фильтрах
+      updateFilterOptions(filteredCars);
+      
+      // Применяем фильтрацию
+      filterCars();
+    }
+    
+    // Основная функция фильтрации
+    function filterCars() {
+      const brand = document.getElementById('brandSelect').value.toLowerCase();
+      const model = document.getElementById('modelSelect').value;
+      const year = document.getElementById('yearSelect').value;
+      const bodyType = document.getElementById('bodyTypeSelect').value;
+      const driveType = document.getElementById('driveTypeSelect').value;
+      const power = document.getElementById('powerSelect').value;
+      const minPrice = parseInt(document.getElementById('minPrice').value) || 0;
+      const maxPrice = parseInt(document.getElementById('maxPrice').value) || Infinity;
+      const searchText = document.getElementById('search').value.toLowerCase();
+      
+      const filteredCars = carsData.filter(car => {
+        // Фильтрация по марке
+        if (brand && car.brand.toLowerCase() !== brand) return false;
+        
+        // Фильтрация по модели
+        if (model && car.model.toLowerCase() !== model) return false;
+        
+        // Фильтрация по году
+        if (year && car.year !== parseInt(year)) return false;
+        
+        // Фильтрация по типу кузова
+        if (bodyType && car.bodyType !== bodyType) return false;
+        
+        // Фильтрация по приводу
+        if (driveType && car.drive !== driveType) return false;
+        
+        // Фильтрация по мощности (обновленная логика для расширенного диапазона)
+        if (power) {
+          const powerValue = parseInt(power);
+          if (powerValue === 50 && car.power > 50) return false;
+          if (powerValue === 100 && (car.power <= 50 || car.power > 100)) return false;
+          if (powerValue === 150 && (car.power <= 100 || car.power > 150)) return false;
+          if (powerValue === 200 && (car.power <= 150 || car.power > 200)) return false;
+          if (powerValue === 300 && (car.power <= 200 || car.power > 300)) return false;
+          if (powerValue === 500 && (car.power <= 300 || car.power > 500)) return false;
+          if (powerValue === 750 && (car.power <= 500 || car.power > 750)) return false;
+          if (powerValue === 1000 && (car.power <= 750 || car.power > 1000)) return false;
+          if (powerValue === 1001 && car.power <= 1000) return false;
+        }
+        
+        // Фильтрация по цене
+        if (car.price < minPrice || car.price > maxPrice) return false;
+        
+        // Фильтрация по поисковому запросу
+        if (searchText) {
+          const carName = `${car.brand} ${car.model}`.toLowerCase();
+          if (!carName.includes(searchText)) return false;
+        }
+        
+        return true;
+      });
+      
+      loadCars(filteredCars);
+    }
+    
+    // Применение фильтров
+    function applyFilters() {
+      filterCars();
+      document.getElementById('filtersPanel').style.display = 'none';
+    }
+    
+    // Функция поиска
+    function performSearch() {
+      filterCars();
+    }
+    
+    // Сброс фильтра
+    function resetFilter(filterId) {
+      const element = document.getElementById(filterId);
+      if (element.tagName === 'SELECT') {
+        element.value = '';
+      }
+      filterCars();
+      
+      // Если сбрасываем марку, нужно также сбросить модели
+      if (filterId === 'brandSelect') {
+        const modelSelect = document.getElementById('modelSelect');
+        modelSelect.innerHTML = '<option value="" selected>Сначала выберите марку</option>';
+        modelSelect.disabled = true;
+      }
+    }
+    
+    // Сброс ценового фильтра
+    function resetPriceFilter() {
+      document.getElementById('minPrice').value = '300000';
+      document.getElementById('maxPrice').value = '10000000';
+      document.getElementById('priceSlider').value = '300000';
+      filterCars();
+    }
+    
+    // Пагинация
+    function changePage(page) {
+      if (page === -1 && currentPage > 1) {
+        currentPage--;
+      } else if (page === 1 && currentPage < Math.ceil(carsData.length / itemsPerPage)) {
+        currentPage++;
+      } else if (page > 0) {
+        currentPage = page;
+      }
+      
+      loadCars(carsData);
+    }
+    
+    function updatePagination() {
+      const pagination = document.getElementById('pagination');
+      const totalPages = Math.ceil(carsData.length / itemsPerPage);
+      
+      // Очищаем кнопки пагинации, кроме первой и последней
+      while (pagination.children.length > 2) {
+        pagination.removeChild(pagination.children[1]);
+      }
+      
+      // Добавляем кнопки страниц
+      for (let i = 1; i <= totalPages; i++) {
+        const button = document.createElement('button');
+        button.textContent = i;
+        button.onclick = function() { changePage(i); };
+        if (i === currentPage) {
+          button.classList.add('active-page');
+        }
+        pagination.insertBefore(button, pagination.lastElementChild);
+      }
+      
+      // Обновляем состояние кнопок "Предыдущие" и "Следующие"
+      const prevButton = pagination.firstElementChild;
+      const nextButton = pagination.lastElementChild;
+      
+      prevButton.disabled = currentPage === 1;
+      nextButton.disabled = currentPage === totalPages;
+    }
+  </script>
+</body>
+</html>

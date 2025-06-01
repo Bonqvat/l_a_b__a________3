@@ -1,0 +1,677 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>FutureAuto - Автомобиль</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" />
+  <style>
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background-color: #fff;
+      color: #111;
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
+    
+    /* Новые стили для шапки */
+    header {
+      background: white;
+      padding: 20px 60px;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      border-bottom: 1px solid #ccc;
+      height: 80px;
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 15px;
+    }
+
+    .logo-img {
+      height: 220px;
+      width: auto;
+    }
+
+    .logo {
+      font-size: 28px;
+      font-weight: 600;
+    }
+
+    nav a {
+      margin: 0 20px;
+      text-decoration: none;
+      color: #333;
+      white-space: nowrap;
+      font-size: 18px;
+      font-weight: 600;
+      text-transform: uppercase;
+      padding: 10px 15px;
+      border-radius: 5px;
+      transition: background-color 0.3s, color 0.3s;
+    }
+
+    nav a:hover {
+      background-color: #4c6ef5;
+      color: white;
+    }
+
+    .icons i {
+      font-size: 18px;
+      margin-left: 20px;
+      cursor: pointer;
+      color: #333;
+    }
+
+    /* Основной контейнер */
+    .container {
+      max-width: 1200px;
+      margin: auto;
+      padding: 30px 20px;
+      flex-grow: 1;
+    }
+    .product-section {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 40px;
+    }
+    .product-image {
+      flex: 1 1 400px;
+      background-color: #f9f9f9;
+      height: 320px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      position: relative;
+    }
+    .colors {
+      position: absolute;
+      bottom: 10px;
+      display: flex;
+      gap: 10px;
+    }
+    .color {
+      width: 20px;
+      height: 20px;
+      border-radius: 50%;
+      border: 1px solid #000;
+      cursor: pointer;
+    }
+    .color.active {
+      border: 2px solid #4c6ef5;
+    }
+    .product-details {
+      flex: 1 1 400px;
+    }
+    .product-details h2 {
+      font-size: 24px;
+      margin-bottom: 10px;
+    }
+    .price {
+      font-size: 28px;
+      font-weight: bold;
+      margin: 20px 0;
+    }
+    .buttons button {
+      width: 100%;
+      margin-bottom: 10px;
+      padding: 12px;
+      font-size: 14px;
+      border: 1px solid #000;
+      background: #fff;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .buttons button:hover {
+      background: #000;
+      color: #fff;
+    }
+    .description {
+      margin: 20px 0;
+      font-size: 14px;
+    }
+    .section {
+      margin-top: 40px;
+    }
+    .section h3 {
+      border-bottom: 1px solid #ccc;
+      padding-bottom: 10px;
+    }
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 14px;
+      margin-top: 10px;
+    }
+    table td {
+      padding: 8px 12px;
+      border-bottom: 1px solid #eee;
+    }
+    table td:first-child {
+      width: 50%;
+      text-align: left;
+      font-weight: 500;
+    }
+    table td:last-child {
+      text-align: right;
+    }
+    
+    /* Новые стили для футера */
+    footer {
+      background: linear-gradient(90deg, #0a0a0a 0%, #1a1a2e 100%);
+      color: white;
+      padding: 50px 60px;
+      margin-top: 60px;
+    }
+
+    .footer-top {
+      display: flex;
+      justify-content: space-between;
+      max-width: 1400px;
+      margin: 0 auto 30px;
+    }
+
+    .footer-left {
+      width: 65%;
+      display: flex;
+      flex-direction: column;
+    }
+
+    .footer-right {
+      width: 32%;
+    }
+
+    .footer-right-content {
+      margin-left: auto;
+      max-width: 320px;
+    }
+
+    .footer-about {
+      margin-bottom: 30px;
+    }
+
+    .footer-top h2 {
+      font-size: 20px;
+      font-weight: 500;
+      margin-bottom: 10px;
+    }
+
+    .footer-subscribe {
+      display: flex;
+      gap: 10px;
+      margin-top: 10px;
+    }
+
+    .footer-subscribe input {
+      padding: 10px 16px;
+      border-radius: 20px;
+      border: none;
+      width: 100%;
+      font-size: 14px;
+    }
+
+    .footer-subscribe button {
+      padding: 10px 20px;
+      border-radius: 20px;
+      border: none;
+      background: #4c6ef5;
+      color: white;
+      cursor: pointer;
+      white-space: nowrap;
+      font-size: 14px;
+      transition: background 0.3s;
+    }
+
+    .footer-subscribe button:hover {
+      background: #3a5cd8;
+    }
+
+    .footer-social-container {
+      margin-top: 25px;
+    }
+
+    .footer-social-container h4 {
+      margin-bottom: 10px;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .footer-social {
+      display: flex;
+      gap: 15px;
+    }
+
+    .footer-social i {
+      font-size: 22px;
+      color: white;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    .footer-social i:hover {
+      color: #4c6ef5;
+    }
+
+    .footer-contacts {
+      margin-top: 25px;
+    }
+
+    .footer-contacts h4 {
+      font-weight: 500;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+
+    .footer-contacts p {
+      margin: 6px 0;
+      font-size: 14px;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .footer-grid {
+      display: grid;
+      grid-template-columns: repeat(4, 1fr);
+      gap: 25px;
+      font-size: 14px;
+    }
+
+    .footer-grid h4 {
+      margin-bottom: 12px;
+      font-weight: 500;
+      font-size: 16px;
+    }
+
+    .footer-grid ul {
+      list-style: none;
+      padding: 0;
+      margin: 0;
+    }
+
+    .footer-grid ul li {
+      margin-bottom: 8px;
+    }
+
+    .footer-grid ul li a {
+      color: white;
+      text-decoration: none;
+      transition: 0.3s;
+      font-size: 14px;
+    }
+
+    .footer-grid ul li a:hover {
+      color: #4c6ef5;
+    }
+
+    @media (max-width: 1200px) {
+      .footer-top {
+        flex-direction: column;
+      }
+      
+      .footer-left,
+      .footer-right {
+        width: 100%;
+      }
+      
+      .footer-right-content {
+        margin-left: 0;
+        max-width: 100%;
+        margin-top: 30px;
+      }
+      
+      .footer-grid {
+        grid-template-columns: repeat(2, 1fr);
+        gap: 30px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      footer {
+        padding: 40px 30px;
+      }
+    }
+
+    @media (max-width: 600px) {
+      footer {
+        padding: 30px 20px;
+      }
+      
+      .footer-grid {
+        grid-template-columns: 1fr;
+        gap: 25px;
+      }
+      
+      .footer-subscribe {
+        flex-direction: column;
+      }
+      
+      .footer-subscribe button {
+        width: 100%;
+      }
+    }
+
+    /* Модальное окно */
+    .modal {
+      display: none;
+      position: fixed;
+      z-index: 1000;
+      left: 0;
+      top: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.5);
+    }
+    .modal-content {
+      background-color: #fff;
+      margin: 15% auto;
+      padding: 20px;
+      border-radius: 8px;
+      width: 80%;
+      max-width: 500px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+      position: relative;
+    }
+    .close {
+      position: absolute;
+      top: 10px;
+      right: 20px;
+      font-size: 24px;
+      font-weight: bold;
+      cursor: pointer;
+    }
+    .modal-title {
+      margin-top: 0;
+      color: #4c6ef5;
+    }
+  </style>
+</head>
+<body>
+  <!-- Новая шапка -->
+  <header>
+    <div class="header-left">
+      <img src="1.png" alt="FutureAuto" class="logo-img">
+    </div>
+    <nav>
+      <a href="index.html">Главная</a>
+      <a href="#">О нас</a>
+      <a href="#">Услуги</a>
+      <a href="#">Контакты</a>
+    </nav>
+    <div class="icons">
+      <i class="fas fa-star" id="favoriteIcon" title="Избранное"></i>
+      <i class="fas fa-shopping-cart" id="cartIcon" title="Корзина"></i>
+      <i class="fas fa-user" title="Войти"></i>
+    </div>
+  </header>
+
+  <!-- Основной контент -->
+  <div class="container">
+    <div class="product-section">
+      <div class="product-image">
+        <img src="images/knewstar-001.png" alt="KNEWSTAR 001" id="mainImage" style="max-height: 100%; max-width: 100%;">
+        <div class="colors">
+          <div class="color active" style="background: black;" onclick="changeColor('black', 'images/knewstar-001.png')"></div>
+          <div class="color" style="background: gray;" onclick="changeColor('gray', 'images/knewstar-001-gray.png')"></div>
+          <div class="color" style="background: white;" onclick="changeColor('white', 'images/knewstar-001-white.png')"></div>
+        </div>
+      </div>
+      <div class="product-details">
+        <h2>KNEWSTAR 001</h2>
+        <div class="price">3 740 190₽</div>
+        <div class="buttons">
+          <button onclick="addToCart()">Добавить в корзину</button>
+          <button onclick="showOrderModal()">Оформить заказ</button>
+          <button onclick="showTestDriveModal()">Записаться на тест-драйв</button>
+        </div>
+        <div class="description">
+          Купе-кроссовер 001 — новая модель в линейке бренда KNEWSTAR: сочетание элегантного дизайна, передовых технологий и современных мощностей.
+        </div>
+      </div>
+    </div>
+    <div class="section">
+      <h3>Основные характеристики</h3>
+      <table>
+        <tr><td>Мощность двигателя</td><td>238 ЛС</td></tr>
+        <tr><td>Объем двигателя</td><td>2.0 л</td></tr>
+        <tr><td>Разгон 0-100 км/ч</td><td>7.4 с</td></tr>
+        <tr><td>Расход топлива</td><td>8.1 л / 100 км</td></tr>
+        <tr><td>Привод</td><td>Полный</td></tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Двигатель</h3>
+      <table>
+        <tr><td>Рабочий объем</td><td>1969 см³</td></tr>
+        <tr><td>Тип двигателя</td><td>Бензиновый</td></tr>
+        <tr><td>Конфигурация</td><td>Рядный</td></tr>
+        <tr><td>Обороты макс.</td><td>6500 об/мин</td></tr>
+        <tr><td>Крутящий момент</td><td>350 Нм</td></tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Размеры</h3>
+      <table>
+        <tr><td>Длина</td><td>4590 мм</td></tr>
+        <tr><td>Ширина</td><td>1872 мм</td></tr>
+        <tr><td>Высота</td><td>1664 мм</td></tr>
+        <tr><td>Колесная база</td><td>2800 мм</td></tr>
+        <tr><td>Объем багажника</td><td>446 л</td></tr>
+      </table>
+    </div>
+    <div class="section">
+      <h3>Общая информация</h3>
+      <table>
+        <tr><td>Страна</td><td>Китай</td></tr>
+        <tr><td>Год</td><td>2024-2025</td></tr>
+        <tr><td>Кузов</td><td>Купе</td></tr>
+        <tr><td>Комплектация</td><td>Flagship Sport</td></tr>
+        <tr><td>Количество дверей</td><td>5</td></tr>
+      </table>
+    </div>
+  </div>
+  
+  <!-- Новый футер -->
+  <footer>
+    <div class="footer-top">
+      <div class="footer-left">
+        <div class="footer-about">
+          <h2>О компании</h2>
+          <p>Наша компания предлагает широкий ассортимент автомобилей различных марок и моделей.</p>
+        </div>
+        <div class="footer-grid">
+          <div>
+            <h4>Категории</h4>
+            <ul>
+              <li><a href="#">Автомобили</a></li>
+              <li><a href="#">Мотоциклы</a></li>
+              <li><a href="#">Запчасти</a></li>
+              <li><a href="#">Акции</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Компания</h4>
+            <ul>
+              <li><a href="#">О нас</a></li>
+              <li><a href="#">Услуги</a></li>
+              <li><a href="#">Контакты</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Поддержка</h4>
+            <ul>
+              <li><a href="#">Часто задаваемые вопросы</a></li>
+              <li><a href="#">Обратная связь</a></li>
+            </ul>
+          </div>
+          <div>
+            <h4>Дополнительно</h4>
+            <ul>
+              <li><a href="#">Условия использования</a></li>
+              <li><a href="#">Политика конфиденциальности</a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="footer-right">
+        <div class="footer-right-content">
+          <h2>Подписка</h2>
+          <div class="footer-subscribe">
+            <input type="email" placeholder="Ваш email" id="footerEmail">
+            <button onclick="subscribe()">Подписаться</button>
+          </div>
+          <div class="footer-social-container">
+            <h4>Социальные сети</h4>
+            <div class="footer-social">
+              <a href="#" title="Gmail"><i class="fas fa-envelope"></i></a>
+              <a href="#" title="ВКонтакте"><i class="fab fa-vk"></i></a>
+              <a href="#" title="Telegram"><i class="fab fa-telegram"></i></a>
+            </div>
+          </div>
+          <div class="footer-contacts">
+            <h4>Контакты</h4>
+            <p><i class="fas fa-phone"></i> +7 (8422) 56-34-89</p>
+            <p><i class="fas fa-envelope"></i> info@futureauto.com</p>
+            <h4>Адрес</h4>
+            <p><i class="fas fa-map-marker-alt"></i> г. Ульяновск</p>
+            <p>ул. Автомобильная, 42</p>
+            <p>Пн-Пт: 9:00-18:00</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Модальное окно оформления заказа -->
+  <div id="orderModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('orderModal')">&times;</span>
+      <h3 class="modal-title">Оформление заказа</h3>
+      <form id="orderForm">
+        <div>
+          <label for="orderName">ФИО:</label>
+          <input type="text" id="orderName" required>
+        </div>
+        <div>
+          <label for="orderPhone">Телефон:</label>
+          <input type="tel" id="orderPhone" required>
+        </div>
+        <div>
+          <label for="orderAddress">Адрес:</label>
+          <input type="text" id="orderAddress" required>
+        </div>
+        <button type="submit">Подтвердить заказ</button>
+      </form>
+    </div>
+  </div>
+
+  <!-- Модальное окно тест-драйва -->
+  <div id="testDriveModal" class="modal">
+    <div class="modal-content">
+      <span class="close" onclick="closeModal('testDriveModal')">&times;</span>
+      <h3 class="modal-title">Запись на тест-драйв</h3>
+      <form id="testDriveForm">
+        <div>
+          <label for="testDriveName">ФИО:</label>
+          <input type="text" id="testDriveName" required>
+        </div>
+        <div>
+          <label for="testDrivePhone">Телефон:</label>
+          <input type="tel" id="testDrivePhone" required>
+        </div>
+        <div>
+          <label for="testDriveDate">Дата:</label>
+          <input type="date" id="testDriveDate" required>
+        </div>
+        <button type="submit">Записаться</button>
+      </form>
+    </div>
+  </div>
+
+  <script>
+    // Инициализация при загрузке страницы
+    document.addEventListener('DOMContentLoaded', function() {
+      // Обработчики форм
+      document.getElementById('orderForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Ваш заказ успешно оформлен! С вами свяжется менеджер для подтверждения.');
+        closeModal('orderModal');
+      });
+
+      document.getElementById('testDriveForm').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('Вы успешно записаны на тест-драйв! С вами свяжется менеджер для подтверждения.');
+        closeModal('testDriveModal');
+      });
+
+      // Избранное
+      document.getElementById('favoriteIcon').addEventListener('click', function() {
+        this.classList.toggle('active');
+        if (this.classList.contains('active')) {
+          alert('Автомобиль добавлен в избранное!');
+        } else {
+          alert('Автомобиль удален из избранного!');
+        }
+      });
+
+      // Корзина
+      document.getElementById('cartIcon').addEventListener('click', function() {
+        alert('Переход в корзину');
+      });
+    });
+
+    // Смена цвета автомобиля
+    function changeColor(color, imageUrl) {
+      document.getElementById('mainImage').src = imageUrl;
+      const colors = document.querySelectorAll('.color');
+      colors.forEach(c => c.classList.remove('active'));
+      event.target.classList.add('active');
+    }
+
+    // Добавление в корзину
+    function addToCart() {
+      alert('Автомобиль KNEWSTAR 001 добавлен в корзину!');
+    }
+
+    // Подписка на рассылку
+    function subscribe() {
+      const email = document.getElementById('footerEmail').value;
+      if (email && email.includes('@')) {
+        alert('Спасибо за подписку! На ваш email будут приходить новости и акции.');
+        document.getElementById('footerEmail').value = '';
+      } else {
+        alert('Пожалуйста, введите корректный email адрес');
+      }
+    }
+
+    // Показать модальное окно оформления заказа
+    function showOrderModal() {
+      document.getElementById('orderModal').style.display = 'block';
+    }
+
+    // Показать модальное окно тест-драйва
+    function showTestDriveModal() {
+      document.getElementById('testDriveModal').style.display = 'block';
+    }
+
+    // Закрыть модальное окно
+    function closeModal(modalId) {
+      document.getElementById(modalId).style.display = 'none';
+    }
+
+    // Закрытие модальных окон при клике вне их
+    window.onclick = function(event) {
+      if (event.target.classList.contains('modal')) {
+        event.target.style.display = 'none';
+      }
+    };
+  </script>
+</body>
+</html>

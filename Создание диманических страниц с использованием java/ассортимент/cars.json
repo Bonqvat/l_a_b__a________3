@@ -1,0 +1,21 @@
+[
+  {
+    "brand": "JAC",
+    "model": "S5 Classic",
+    "engine": "1.5 CVT (113)",
+    "image": "s5.jpg"
+  },
+  {
+    "brand": "Skoda",
+    "model": "Superb",
+    "engine": "1.4 AMT (150)",
+    "image": "skoda.jpg"
+  },
+  {
+    "brand": "Lada",
+    "model": "Aura",
+    "engine": "1.8 CVT (122)",
+    "image": "lada.jpg"
+  }
+  // дублируй по необходимости для заполнения списка
+]
